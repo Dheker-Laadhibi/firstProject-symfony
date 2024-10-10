@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+
+    ],
+    "emmet.preferences": {
+
+    },
+    "emmet.includeLanguages": {
+        "\"twig\"": ".twig"
+    },
+    "emmet.useInlineCompletions": true
+}
