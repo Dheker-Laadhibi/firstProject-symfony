@@ -5,16 +5,19 @@
 <td>ID</td>
 <td>Username</td>
 <td>Email</td>
+<td>actions </td>
 </tr>
 
 
 
 {% for author in authors %}
     <tr>
-    <td>{{author.id}}</td>
-    <td>{{author.username}}</td>
-    <td>{{author.email}}</td>
-
+    <th>{{author.id}}</th>
+    <th>{{author.username}}</th>
+    <th>{{author.email}}</th>
+<!-- Ajout d'un texte pour le lien d'édition -->
+<td><a href="{{ path('edit', {'id': author.id}) }}">Edit</a></td>
+<td><a href="{{ path('remove', {'id': author.id}) }}">Remove</a></td>
     
     </tr>
 

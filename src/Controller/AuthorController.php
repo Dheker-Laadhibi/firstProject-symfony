@@ -1,8 +1,15 @@
 <?php
 
 namespace App\Controller;
+
+use App\Entity\Author;
+use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -93,7 +100,91 @@ public function read( AuthorRepository $rep): Response
 }
 
 
+#[Route('/AddStatic', name: 'AddStatic')]
+public function AddStatic( EntityManagerInterface $em): Response
+{
+    
+$author1 = new  Author();
+$author1->setUsername("nour");
+$author1->setEmail("badraaaaNouNouuu");
+    $em->persist($author1);
+    $em->flush();
+
+    return $this->redirectToRoute('read');
+
+}
+
+
+
+#request mwjouda fl http foundation 
+#[Route('/Add', name: 'Add')]
+public function Add( EntityManagerInterface $em   , Request $req): Response
+{
+    
+$author1 = new  Author();
+#type de author type class
+$form =$this->createForm(AuthorType::class, $author1);
+$form->add('send',SubmitType::class);
+$form->handleRequest($req);
+
+if($form -> isSubmitted()){
+    $em->persist($author1);
+    $em->flush();
+    return $this->redirectToRoute('read');
+}
+else {
+return  $this->renderForm('author/ajout.html.twig',["f"=>$form] );
+}
+
+   
+
+
+}
+
+
+
+
+#request mwjouda fl http foundation 
+#[Route('/edit{id}', name: 'edit')]
+public function edit( EntityManagerInterface $em   , Request $req , $id,AuthorRepository $rep ): Response
+{
+    
+$author1 = $rep->find($id);
+#type de author type class
+$form =$this->createForm(AuthorType::class, $author1);
+$form->add('edit',SubmitType::class);
+$form->handleRequest($req);
+
+if($form -> isSubmitted()){
+    $em->persist($author1);
+    $em->flush();
+    return $this->redirectToRoute('read');
+  
+}
+
+
+return  $this->renderForm('author/edit.html.twig',["f"=>$form] );
+}
+
+   
+#request mwjouda fl http foundation 
+#[Route('/remove{id}', name: 'remove')]
+public function remove( EntityManagerInterface $em    , $id,AuthorRepository $rep ): Response
+{
+    
+$author1 = $rep->find($id);
+$em ->remove($author1);
+$em->flush();
+    return $this->redirectToRoute('read');
+  
+
 
 
 
 }
+
+   
+
+
+}
+
